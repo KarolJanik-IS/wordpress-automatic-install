@@ -13,7 +13,7 @@
     state: present
 - name: "install php packages"
   yum:
-    ame: php80-php, php80, php80-php-mysqlnd, php80-php-pecl-mysql
+    name: php80-php, php80, php80-php-mysqlnd, php80-php-pecl-mysql
     state: present
 - name: "copy mariadb repo cfg"
   copy:
