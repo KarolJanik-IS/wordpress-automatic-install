@@ -1,0 +1,43 @@
+---
+- name: "install http server"
+  yum:
+    name: httpd
+    state: present
+- name: "install EPEL"
+  yum:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    state: present
+- name: "install php repo"
+  yum:
+    name: https://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    state: present
+- name: "install php packages"
+  yum:
+    ame: php80-php, php80, php80-php-mysqlnd, php80-php-pecl-mysql
+    state: present
+- name: "copy mariadb repo cfg"
+  copy:
+    src: files/Mariadb.repo
+    dest: /etc/yum.repos.d/Mariadb.repo
+- name: "install mariadb"
+  yum:
+    name: MariaDB-server, MariaDB-client
+    state: present
+- name: "reload mariadb"
+  systemd:
+    name: mariadb
+    state: started
+- name: "install mysql related module"
+  yum:
+    name: MySQL-python
+    state: present
+- name: "create wp's db"
+  mysql_db:
+    name: "{{DB_NAME}}"
+    state: present
+- name: "create user && asign privileges"
+  mysql_user:
+    name: "{{DB_USER}}"
+    password: "{{DB_PW}}"
+    priv: "{{DB_NAME}}.*:ALL"
+    state: present

@@ -1,0 +1,13 @@
+---
+- hosts: wp_nodes
+  become: yes
+  vars_files:
+    - vars/main.yaml
+  tasks:
+    - include_tasks: tasks/pre_requisites.yaml
+    - include_tasks: tasks/wordpress_setup.yaml
+  tasks:
+     - name: "install EPEL"
+      yum:
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        state: present
